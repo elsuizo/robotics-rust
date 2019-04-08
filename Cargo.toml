@@ -1,0 +1,12 @@
+[package]
+name = "robotics-rust"
+version = "0.1.0"
+authors = ["elsuizo <mnoblia@disroot.org>"]
+edition = "2018"
+
+[dependencies]
+ndarray = "0.12"
+ndarray-linalg = "0.10"
+assert_approx_eq = "1.1.0"
+num = "*"
+
