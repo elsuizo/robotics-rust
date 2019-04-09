@@ -100,16 +100,15 @@ fn euler2rot<F: Float>(angle_phi: F, angle_theta: F, angle_psi: F) -> Array2<F> 
     rotz(angle_phi) * roty(angle_theta) * rotz(angle_psi)
 }
 
-
-/// Brief.
-///
-/// Compute the euler angles from a Rotation matrix(ZYZ convention)
-///
-/// Function arguments:
-/// `R`: Rotation matrix
-///
-/// Output:
-/// A tuple with the angles: phi, theta, psi
-pub fn rot2euler<F: Float>(R: Array2<F>) -> (F, F, F) {
-    if
-}
+//
+// /// Brief.
+// ///
+// /// Compute the euler angles from a Rotation matrix(ZYZ convention)
+// ///
+// /// Function arguments:
+// /// `R`: Rotation matrix
+// ///
+// /// Output:
+// /// A tuple with the angles: phi, theta, psi
+// pub fn rot2euler<F: Float>(R: Array2<F>) -> (F, F, F) {
+// }
