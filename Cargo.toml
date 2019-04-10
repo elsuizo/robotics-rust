@@ -5,8 +5,9 @@ authors = ["elsuizo <mnoblia@disroot.org>"]
 edition = "2018"
 
 [dependencies]
-ndarray = "0.12"
-ndarray-linalg = "0.10"
+# ndarray = "0.12"
+# ndarray-linalg = "0.10"
+nalgebra = "*"
 assert_approx_eq = "1.1.0"
 num = "*"
 
