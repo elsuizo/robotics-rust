@@ -155,7 +155,7 @@ pub fn euler2rot<F: Float>(angle_phi: F, angle_theta: F, angle_psi: F) -> Array2
 pub fn angle_vector2rot<F: Float>(theta: F, vector: Array1<F>) -> Array2<F> {
     let c = theta.cos();
     let s = theta.sin();
-    let comp = (1 - c);
+    let comp = (F::one() - c);
     let v_x = vector[0];
     let v_y = vector[1];
     let v_z = vector[2];
@@ -163,7 +163,8 @@ pub fn angle_vector2rot<F: Float>(theta: F, vector: Array1<F>) -> Array2<F> {
 
     let R = arr2(&[ [v_x * v_x * comp + c, v_y * v_x * comp - v_z * s, v_z * v_x * comp + v_y * s],
                     [v_x * v_y * comp + v_z * s, v_y * v_y * comp + c, v_z * v_y * comp - v_x * s],
-                    [v_x * v_z * comp - v_y * s, v_y * v_z * comp + v_x * s, v_z * v_z * comp + c], ])
+                    [v_x * v_z * comp - v_y * s, v_y * v_z * comp + v_x * s, v_z * v_z * comp + c], ]);
+    return R
 }
 
 /// Brief.
@@ -178,22 +179,23 @@ pub fn angle_vector2rot<F: Float>(theta: F, vector: Array1<F>) -> Array2<F> {
 ///
 pub fn rot2euler<F: Float>(R: Array2<F>) -> (F, F, F) {
 
-    if R[0,2].abs() < F::epsilon() && R[1, 2].abs() < F::epsilon() {
+    if R[[0,2]].abs() < F::epsilon() && R[[1, 2]].abs() < F::epsilon() {
         // singularity
-        let phi   = 0.0;
-        let sp    = 0.0;
-        let cp    = 1.0;
-        let theta = (cp * R[0, 2] + sp * R[1, 2]).atan2(R[2, 2]);
-        let psi   = (-sp * R[0, 0] + cp * R[1, 0]).atan2(-sp * R[0, 1] + cp * R[1, 1]);
+        let phi   = F::zero();
+        let sp    = F::zero();
+        let cp    = F::one();
+        let theta = (cp * R[[0, 2]] + sp * R[[1, 2]]).atan2(R[[2, 2]]);
+        let psi   = (-sp * R[[0, 0]] + cp * R[[1, 0]]).atan2(-sp * R[[0, 1]] + cp * R[[1, 1]]);
+        return (phi, theta, psi);
     } else {
         // non-singular
-        let phi   = R[1, 2].atan2(R[0, 2]);
-        let sp    = sin(phi);
-        let cp    = cos(phi);
-        let theta = (cp * R[0, 2] + sp * R[1, 2]).atan2(R[2, 2]);
-        let psi   = (-sp * R[0, 0] + cp * R[1, 0].atan2(-sp * R[0, 1] + cp * R[1, 1]);
+        let phi   = R[[1, 2]].atan2(R[[0, 2]]);
+        let sp    = phi.sin();
+        let cp    = phi.cos();
+        let theta = (cp * R[[0, 2]] + sp * R[[1, 2]]).atan2(R[[2, 2]]);
+        let psi   = (-sp * R[[0, 0]] + cp * R[[1, 0]]).atan2(-sp * R[[0, 1]] + cp * R[[1, 1]]);
+        return (phi, theta, psi);
     }
-    return (phi, theta, psi);
 }
 
 /// Brief.
@@ -209,5 +211,5 @@ pub fn rot2euler<F: Float>(R: Array2<F>) -> (F, F, F) {
 /// R: Rotation matrix(Array2<Float>)
 ///
 pub fn euler2trans<F: Float>(phi: F, theta: F, psi: F) -> Array2<F> {
-    rot2trans(euler2rot(phi, theta, psi))
+    rot2trans(&euler2rot(phi, theta, psi))
 }
