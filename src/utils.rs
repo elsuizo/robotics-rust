@@ -33,6 +33,7 @@ pub fn cross<F: Float>(u: &Array1<F>, v: &Array1<F>) -> Result<Array1<F>, UtilEr
     }
 }
 
+<<<<<<< HEAD
 // NOTE(elsuizo:2019-04-11): esta funcion con Float solo na andaba le tuve que
 // agregar Scalar al bound
 
@@ -57,4 +58,15 @@ pub fn is_rotation<SF: Scalar + Float>(R: &Array2<SF>) -> bool {
     }
 
     result
+=======
+/// Brief.
+///
+/// Verify if the Array2 is a proper rotation matrix
+///
+/// Function arguments:
+/// R: Rotation matrix(Array2<Float> 3x3)
+///
+pub fn is_rotation<F: Float>(R: Array2<F>) -> bool {
+
+>>>>>>> 01a343592796fd61328f63ad82bbe45fef0a3b31
 }
