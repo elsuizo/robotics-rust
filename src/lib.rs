@@ -34,7 +34,7 @@ mod tests {
         // test all elements of the matrix
         for row in 0..3 {
             for column in 0..3 {
-                assert_approx_eq!(a[[row, column]] as f64, b[[row, column]] as f64, 1.0e-6);
+                assert_approx_eq!(a[(row, column)] as f64, b[(row, column)] as f64, 1.0e-6);
             }
         }
     }

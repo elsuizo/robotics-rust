@@ -3,8 +3,10 @@
 //                        imports
 //-------------------------------------------------------------------------
 // use ndarray::prelude::*;
-use na::{Matrix3, RowVector3};
+use na::{Matrix3, RowVector3, Scalar};
+use alga::general::RingCommutative;
 use num::Float;
+use core::fmt::Debug;
 //-------------------------------------------------------------------------
 //                        code
 //-------------------------------------------------------------------------
@@ -15,17 +17,17 @@ use num::Float;
 /// description
 ///
 /// * `angle` - angle of rotation in degrees
-pub fn rotx<F: Float>(angle: F) -> Matrix3<F> {
-    let one = F::one();
-    let zero = F::zero();
+pub fn rotx<N: Scalar + RingCommutative + Float>(angle: N) -> Matrix3<N> {
+    let one = N::one();
+    let zero = N::zero();
     let c = angle.to_radians().cos();
     let s = angle.to_radians().sin();
 
-    let R = Matrix3::from_rows(&[
+    let Rotation = Matrix3::from_rows(&[
          RowVector3::new(one, zero, zero),
          RowVector3::new(zero,   c,  -s),
          RowVector3::new(zero,   s,   c),]);
-    return R;
+    return Rotation;
 }
 
 //
