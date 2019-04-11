@@ -17,9 +17,9 @@ pub fn cross<F: Float>(u: &Array1<F>, v: &Array1<F>) -> Result<Array1<F>, UtilEr
     // que hacerlo tambien cuando inicializamos, por eso utilizamos F::zero()
     if ((u.len() == v.len()) && (u.len() == 3)) {
         let mut w = arr1(&[F::zero(), F::zero(), F::zero()]);
-        w[0] = (u[1] * v[2] - u[2] * v[1]);
-        w[1] = (u[2] * v[1] - u[0] * v[2]);
-        w[2] = (u[0] * v[1] - u[1] * v[0]);
+        w[0] = u[1] * v[2] - u[2] * v[1];
+        w[1] = u[2] * v[1] - u[0] * v[2];
+        w[2] = u[0] * v[1] - u[1] * v[0];
 
         return Ok(w);
     }
@@ -29,4 +29,15 @@ pub fn cross<F: Float>(u: &Array1<F>, v: &Array1<F>) -> Result<Array1<F>, UtilEr
             len_v: v.len(),
         })
     }
+}
+
+/// Brief.
+///
+/// Verify if the Array2 is a proper rotation matrix
+///
+/// Function arguments:
+/// R: Rotation matrix(Array2<Float> 3x3)
+///
+pub fn is_rotation<F: Float>(R: Array2<F>) -> bool {
+
 }
