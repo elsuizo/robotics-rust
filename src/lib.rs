@@ -18,7 +18,7 @@ pub mod types;
 //-------------------------------------------------------------------------
 
 #[cfg(test)]
-mod tests {
+mod tests_transformations {
     use assert_approx_eq::assert_approx_eq;
     use crate::transformations::{rotx, roty};
     use crate::utils::cross;
@@ -50,6 +50,15 @@ mod tests {
         }
     }
 
+}
+
+#[cfg(test)]
+mod tests_utils {
+    use crate::utils::{cross, is_rotation};
+    use ndarray::arr1;
+    use crate::transformations::{rotx, roty};
+    use assert_approx_eq::assert_approx_eq;
+
     #[test]
     fn test_cross() {
         // testing X x Y = Z
@@ -67,4 +76,10 @@ mod tests {
         }
 
     }
+    // NOTE(elsuizo:2019-04-11): este test no funciona por problemas con el metodo `det()`
+    // #[test]
+    // fn test_is_rotation() {
+    //     let R = rotx(90.0);
+    //     assert_eq!(is_rotation(&R), true);
+    // }
 }

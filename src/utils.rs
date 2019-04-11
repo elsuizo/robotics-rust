@@ -3,8 +3,10 @@
 //                        imports
 //-------------------------------------------------------------------------
 use ndarray::prelude::*;
+use ndarray_linalg::solve::Determinant;
 use num::Float;
 use super::error::UtilError;
+use ndarray_linalg::types::Scalar;
 
 //-------------------------------------------------------------------------
 //                        code
@@ -31,6 +33,35 @@ pub fn cross<F: Float>(u: &Array1<F>, v: &Array1<F>) -> Result<Array1<F>, UtilEr
     }
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+// NOTE(elsuizo:2019-04-11): esta funcion con Float solo na andaba le tuve que
+// agregar Scalar al bound
+
+// NOTE(elsuizo:2019-04-11): deberia devolver un Result???
+/// Brief.
+///
+/// verify if a Array2<Float> is a propper rotation matrix
+///
+/// Function arguments:
+/// R: Array2<Float>
+///
+pub fn is_rotation<SF: Scalar + Float>(R: &Array2<SF>) -> bool {
+    let mut result = false;
+    let shape = R.shape();
+    if (shape[0] == shape[1]) && (shape[0] == 3) {
+        // the determinant must be almost one
+        if (R.det().unwrap() - SF::one()).abs() < SF::epsilon() {
+            result = true;
+        }
+    } else {
+        result = false;
+    }
+
+    result
+=======
+>>>>>>> origin/new_types
 /// Brief.
 ///
 /// Verify if the Array2 is a proper rotation matrix
@@ -40,4 +71,8 @@ pub fn cross<F: Float>(u: &Array1<F>, v: &Array1<F>) -> Result<Array1<F>, UtilEr
 ///
 pub fn is_rotation<F: Float>(R: Array2<F>) -> bool {
 
+<<<<<<< HEAD
+=======
+>>>>>>> 01a343592796fd61328f63ad82bbe45fef0a3b31
+>>>>>>> origin/new_types
 }
