@@ -11,6 +11,7 @@ extern crate num;
 pub mod transformations;
 pub mod utils;
 pub mod error;
+pub mod types;
 
 //-------------------------------------------------------------------------
 //                        tests
