@@ -13,15 +13,15 @@ pub struct Homogeneous<F> {
     data: Array2<F>,
 }
 
+#[derive(Debug)]
 pub struct Rotation<F> {
     data: Array2<F>,
 }
 
-// enum Rotationlalala<T> {
-//
-//     Homogeneous<T>,
-//     Rotation<T>
-// }
+enum Rotationlalala {
+    Homogeneous,
+    Rotation,
+}
 
 
 impl<F: Float> Homogeneous<F> {
