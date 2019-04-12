@@ -3,7 +3,7 @@
 //                        imports
 //-------------------------------------------------------------------------
 // use ndarray::prelude::*;
-use na::{Matrix3, Matrix4, RowVector3, Scalar};
+use na::{Matrix3, Matrix4, RowVector3, Scalar, Vector3};
 use alga::general::RingCommutative;
 use num::Float;
 use core::fmt::Debug;
@@ -17,16 +17,9 @@ use core::fmt::Debug;
 /// description
 ///
 /// * `angle` - angle of rotation in degrees
-<<<<<<< HEAD
-pub fn rotx<SF: Scalar + Float>(angle: SF) -> Matrix3<SF> {
+pub fn rotx<SF:Scalar + Float>(angle: SF) -> Matrix3<SF> {
     let one = SF::one();
     let zero = SF::zero();
-=======
-///
-pub fn rotx<F: Float>(angle: F) -> Array2<F> {
-    let one = F::one();
-    let zero = F::zero();
->>>>>>> master
     let c = angle.to_radians().cos();
     let s = angle.to_radians().sin();
 
@@ -45,16 +38,9 @@ pub fn rotx<F: Float>(angle: F) -> Array2<F> {
 /// Description
 ///
 /// * `angle` - Angle of rotation in degrees
-<<<<<<< HEAD
 pub fn roty<SF: Scalar + Float>(angle: SF) -> Matrix3<SF> {
     let one = SF::one();
     let zero = SF::zero();
-=======
-///
-pub fn roty<F: Float>(angle: F) -> Array2<F> {
-    let one = F::one();
-    let zero = F::zero();
->>>>>>> master
     let c = angle.to_radians().cos();
     let s = angle.to_radians().sin();
     let Rotation = Matrix3::from_rows(&[
@@ -72,16 +58,9 @@ pub fn roty<F: Float>(angle: F) -> Array2<F> {
 /// Description
 ///
 /// * `angle` - Angle of rotation in degrees
-<<<<<<< HEAD
 pub fn rotz<SF:Scalar + Float>(angle: SF) -> Matrix3<SF> {
     let one = SF::one();
     let zero = SF::zero();
-=======
-///
-pub fn rotz<F: Float>(angle: F) -> Array2<F> {
-    let one = F::one();
-    let zero = F::zero();
->>>>>>> master
     let c = angle.to_radians().cos();
     let s = angle.to_radians().sin();
     let Rotation = Matrix3::from_rows(&[
@@ -99,16 +78,11 @@ pub fn rotz<F: Float>(angle: F) -> Array2<F> {
 /// Function arguments:
 /// `r`: Array2<Float>
 ///
-<<<<<<< HEAD
-fn rot2trans<SF:Scalar + Float>(r: &Matrix3<SF>) -> Matrix4<SF> {
-    let mut R = Matrix4::zeros();
-=======
 /// Output:
 /// R: Rotation matrix(Array2<Float>)
 ///
-pub fn rot2trans<F: Float>(r: &Array2<F>) -> Array2<F> {
-    let mut R = Array2::<F>::zeros((4,4));
->>>>>>> master
+fn rot2trans<SF:Scalar + Float>(r: &Matrix3<SF>) -> Matrix4<SF> {
+    let mut R = Matrix4::zeros();
     for row in 0..3 {
         for column in 0..3 {
             R[(row, column)] = r[(row, column)];
@@ -125,7 +99,6 @@ pub fn rot2trans<F: Float>(r: &Array2<F>) -> Array2<F> {
 /// Function arguments:
 ///  `angle`: Float
 ///
-<<<<<<< HEAD
 fn trotx<SF:Scalar + Float>(angle: SF) -> Matrix4<SF> {
     rot2trans(&rotx(angle.to_radians()))
 }
@@ -138,12 +111,7 @@ fn trotz<SF:Scalar + Float>(angle: SF) -> Matrix4<SF> {
     rot2trans(&rotz(angle.to_radians()))
 }
 
-fn euler2rot<SF:Scalar + Float + RingCommutative>(angle_phi: SF, angle_theta: SF, angle_psi: SF) -> Matrix3<SF> {
-=======
-/// Output:
-/// Array2<Float>: 4x4
-///
-pub fn trotx<F: Float>(angle: F) -> Array2<F> {
+pub fn trotx<SF:Scalar + Float>(angle: SF) -> Matrix4<SF> {
     rot2trans(&rotx(angle.to_radians()))
 }
 
@@ -157,7 +125,7 @@ pub fn trotx<F: Float>(angle: F) -> Array2<F> {
 /// Output:
 /// Array2<Float>: 4x4
 ///
-pub fn troty<F: Float>(angle: F) -> Array2<F> {
+pub fn troty<SF:Scalar + Float>(angle: SF) -> Matrix4<SF> {
     rot2trans(&roty(angle.to_radians()))
 }
 
@@ -171,7 +139,7 @@ pub fn troty<F: Float>(angle: F) -> Array2<F> {
 /// Output:
 /// Array2<Float>: 4x4
 ///
-pub fn trotz<F: Float>(angle: F) -> Array2<F> {
+pub fn trotz<SF:Scalar + Float>(angle: SF) -> Matrix4<SF> {
     rot2trans(&rotz(angle.to_radians()))
 }
 
@@ -187,8 +155,7 @@ pub fn trotz<F: Float>(angle: F) -> Array2<F> {
 /// Output:
 /// R: Rotation matrix(Array2<Float>)
 ///
-pub fn euler2rot<F: Float>(angle_phi: F, angle_theta: F, angle_psi: F) -> Array2<F> {
->>>>>>> master
+pub fn euler2rot<SF:Scalar + Float + RingCommutative>(angle_phi: SF, angle_theta: SF, angle_psi: SF) -> Matrix3<SF> {
     rotz(angle_phi) * roty(angle_theta) * rotz(angle_psi)
 }
 
@@ -203,22 +170,22 @@ pub fn euler2rot<F: Float>(angle_phi: F, angle_theta: F, angle_psi: F) -> Array2
 /// Return:
 /// R: Rotation matrix(Array2<Float>)
 ///
-pub fn angle_vector2rot<F: Float>(theta: F, vector: Array1<F>) -> Array2<F> {
+pub fn angle_vector2rot<SF:Scalar + Float>(theta: SF, vector: Vector3<SF>) -> Matrix3<SF> {
     let c = theta.cos();
     let s = theta.sin();
-    let comp = (F::one() - c);
-    let v_x = vector[0];
-    let v_y = vector[1];
-    let v_z = vector[2];
+    let comp = SF::one() - c;
+    let v_x = vector[(0)];
+    let v_y = vector[(1)];
+    let v_z = vector[(2)];
 
-
-    let R = arr2(&[ [v_x * v_x * comp + c, v_y * v_x * comp - v_z * s, v_z * v_x * comp + v_y * s],
-                    [v_x * v_y * comp + v_z * s, v_y * v_y * comp + c, v_z * v_y * comp - v_x * s],
-                    [v_x * v_z * comp - v_y * s, v_y * v_z * comp + v_x * s, v_z * v_z * comp + c], ]);
-    return R
+    let Rotation = Matrix3::from_rows(&[
+                        RowVector3::new(      v_x * v_x * comp + c, v_y * v_x * comp - v_z * s, v_z * v_x * comp + v_y * s),
+                        RowVector3::new(v_x * v_y * comp + v_z * s,       v_y * v_y * comp + c, v_z * v_y * comp - v_x * s),
+                        RowVector3::new(v_x * v_z * comp - v_y * s, v_y * v_z * comp + v_x * s,       v_z * v_z * comp + c),
+                                       ]);
+    return Rotation
 }
 
-<<<<<<< HEAD
 // /// Brief.
 // ///
 // /// Compute the euler angles from a Rotation matrix(ZYZ convention)
@@ -231,7 +198,6 @@ pub fn angle_vector2rot<F: Float>(theta: F, vector: Array1<F>) -> Array2<F> {
 // pub fn rot2euler<F: Float>(R: Array2<F>) -> (F, F, F) {
 //     if
 // }
-=======
 /// Brief.
 ///
 /// Compute the euler angles from a Rotation matrix(ZYZ convention)
@@ -242,29 +208,29 @@ pub fn angle_vector2rot<F: Float>(theta: F, vector: Array1<F>) -> Array2<F> {
 /// Output:
 /// A tuple with the angles: phi, theta, psi
 ///
-pub fn rot2euler<F: Float>(R: &Array2<F>) -> (F, F, F) {
+pub fn rot2euler<SF:Scalar + Float>(R: &Matrix3<SF>) -> (SF, SF, SF) {
 
-    if R[[0,2]].abs() < F::epsilon() && R[[1, 2]].abs() < F::epsilon() {
+    if R[(0,2)].abs() < SF::epsilon() && R[(1, 2)].abs() < SF::epsilon() {
         // singularity
-        let phi   = F::zero();
-        let sp    = F::zero();
-        let cp    = F::one();
-        let theta = (cp * R[[0, 2]] + sp * R[[1, 2]]).atan2(R[[2, 2]]);
-        let psi   = (-sp * R[[0, 0]] + cp * R[[1, 0]]).atan2(-sp * R[[0, 1]] + cp * R[[1, 1]]);
+        let phi   = SF::zero();
+        let sp    = SF::zero();
+        let cp    = SF::one();
+        let theta = (cp * R[(0, 2)] + sp * R[(1, 2)]).atan2(R[(2, 2)]);
+        let psi   = (-sp * R[(0, 0)] + cp * R[(1, 0)]).atan2(-sp * R[(0, 1)] + cp * R[(1, 1)]);
         return (phi, theta, psi);
     } else {
         // non-singular
-        let phi   = R[[1, 2]].atan2(R[[0, 2]]);
+        let phi   = R[(1, 2)].atan2(R[(0, 2)]);
         let sp    = phi.sin();
         let cp    = phi.cos();
-        let theta = (cp * R[[0, 2]] + sp * R[[1, 2]]).atan2(R[[2, 2]]);
-        let psi   = (-sp * R[[0, 0]] + cp * R[[1, 0]]).atan2(-sp * R[[0, 1]] + cp * R[[1, 1]]);
+        let theta = (cp * R[(0, 2)] + sp * R[(1, 2)]).atan2(R[(2, 2)]);
+        let psi   = (-sp * R[(0, 0)] + cp * R[(1, 0)]).atan2(-sp * R[(0, 1)] + cp * R[(1, 1)]);
         return (phi, theta, psi);
     }
 }
 
 
-pub fn rot_euler_zyx<F: Float>(phi: F, theta: F, psi: F) -> Array2<F> {
+pub fn rot_euler_zyx<SF:Scalar + Float + RingCommutative>(phi: SF, theta: SF, psi: SF) -> Matrix3<SF> {
     rotz(phi) * roty(theta) * rotx(psi)
 }
 
@@ -280,8 +246,6 @@ pub fn rot_euler_zyx<F: Float>(phi: F, theta: F, psi: F) -> Array2<F> {
 /// Output:
 /// R: Rotation matrix(Array2<Float>)
 ///
-pub fn euler2trans<F: Float>(phi: F, theta: F, psi: F) -> Array2<F> {
+pub fn euler2trans<SF:Scalar + Float>(phi: SF, theta: SF, psi: SF) -> Matrix4<SF> {
     rot2trans(&euler2rot(phi, theta, psi))
 }
-
->>>>>>> master
