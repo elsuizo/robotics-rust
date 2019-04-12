@@ -23,11 +23,7 @@ pub mod types;
 #[cfg(test)]
 mod tests_transformations {
     use assert_approx_eq::assert_approx_eq;
-    use crate::transformations::{rotx, roty, rotz};
-    // use crate::utils::cross;
-    // use ndarray::arr1;
-    use crate::transformations::{rotx, roty, rot2euler, euler2rot, rot_euler_zyx};
-    // use ndarray_linalg::close_l1;
+    use crate::transformations::{rotx, roty, rotz, rot2euler, euler2rot, rot_euler_zyx};
 
     #[test]
     fn test_rotx() {

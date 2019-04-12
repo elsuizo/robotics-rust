@@ -5,7 +5,7 @@
 use num::Float;
 use super::error::UtilError;
 use nalgebra::{Vector3, Matrix3, Scalar};
-use ndarray_linalg::types::Scalar;
+use alga::general::RingCommutative;
 
 // NOTE(elsuizo:2019-04-12): creo que no hace falta ya que nalgebra tiene cross
 //-------------------------------------------------------------------------
@@ -44,7 +44,7 @@ use ndarray_linalg::types::Scalar;
 /// Function arguments:
 /// R: Array2<Float>
 ///
-pub fn is_rotation<SF: Scalar + Float>(R: &Matrix3<SF>) -> bool {
+pub fn is_rotation<SF: Scalar + Float + RingCommutative + na::ComplexField>(R: &Matrix3<SF>) -> bool {
     let mut result = false;
     // the determinant must be almost one
     if (R.determinant() - SF::one()).abs() < SF::epsilon() {

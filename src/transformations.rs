@@ -99,21 +99,10 @@ fn rot2trans<SF:Scalar + Float>(r: &Matrix3<SF>) -> Matrix4<SF> {
 /// Function arguments:
 ///  `angle`: Float
 ///
-fn trotx<SF:Scalar + Float>(angle: SF) -> Matrix4<SF> {
-    rot2trans(&rotx(angle.to_radians()))
-}
-
-fn troty<SF:Scalar + Float>(angle: SF) -> Matrix4<SF> {
-    rot2trans(&roty(angle.to_radians()))
-}
-
-fn trotz<SF:Scalar + Float>(angle: SF) -> Matrix4<SF> {
-    rot2trans(&rotz(angle.to_radians()))
-}
-
 pub fn trotx<SF:Scalar + Float>(angle: SF) -> Matrix4<SF> {
     rot2trans(&rotx(angle.to_radians()))
 }
+
 
 /// Brief.
 ///
