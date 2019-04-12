@@ -20,7 +20,7 @@ pub mod transformations;
 #[cfg(test)]
 mod tests {
     use assert_approx_eq::assert_approx_eq;
-    use crate::transformations::{rotx};
+    use crate::transformations::{rotx, roty, rotz};
     // use crate::utils::cross;
     // use ndarray::arr1;
     // use ndarray_linalg::close_l1;
@@ -37,19 +37,38 @@ mod tests {
                 assert_approx_eq!(a[(row, column)] as f64, b[(row, column)] as f64, 1.0e-6);
             }
         }
+        // NOTE(elsuizo:2019-04-12): the proper rotation matrix must be determinant 1
+        assert_approx_eq!(a.determinant() as f64, 1.0, 1.0e-6);
+        assert_approx_eq!(b.determinant() as f64, 1.0, 1.0e-6);
     }
-    //
-    // #[test]
-    // fn test_roty() {
-    //     let a = roty(90.0);
-    //     let b = roty(90.0 + 360.0);
-    //     for row in 0..3 {
-    //         for column in 0..3 {
-    //             assert_approx_eq!(a[[row, column]] as f64, b[[row, column]] as f64, 1.0e-6);
-    //         }
-    //     }
-    // }
-    //
+
+    #[test]
+    fn test_roty() {
+        let a = roty(90.0);
+        let b = roty(90.0 + 360.0);
+        for row in 0..3 {
+            for column in 0..3 {
+                assert_approx_eq!(a[(row, column)] as f64, b[(row, column)] as f64, 1.0e-6);
+            }
+        }
+        // NOTE(elsuizo:2019-04-12): the proper rotation matrix must be determinant 1
+        assert_approx_eq!(a.determinant() as f64, 1.0, 1.0e-6);
+        assert_approx_eq!(b.determinant() as f64, 1.0, 1.0e-6);
+    }
+
+    #[test]
+    fn test_rotz() {
+        let a = rotz(90.0);
+        let b = rotz(90.0 + 360.0);
+        for row in 0..3 {
+            for column in 0..3 {
+                assert_approx_eq!(a[(row, column)] as f64, b[(row, column)] as f64, 1.0e-6);
+            }
+        }
+        assert_approx_eq!(a.determinant() as f64, 1.0, 1.0e-6);
+        assert_approx_eq!(b.determinant() as f64, 1.0, 1.0e-6);
+    }
+
     // #[test]
     // fn test_cross() {
     //     // testing X x Y = Z
