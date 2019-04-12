@@ -177,7 +177,7 @@ pub fn angle_vector2rot<F: Float>(theta: F, vector: Array1<F>) -> Array2<F> {
 /// Output:
 /// A tuple with the angles: phi, theta, psi
 ///
-pub fn rot2euler<F: Float>(R: Array2<F>) -> (F, F, F) {
+pub fn rot2euler<F: Float>(R: &Array2<F>) -> (F, F, F) {
 
     if R[[0,2]].abs() < F::epsilon() && R[[1, 2]].abs() < F::epsilon() {
         // singularity
@@ -198,6 +198,11 @@ pub fn rot2euler<F: Float>(R: Array2<F>) -> (F, F, F) {
     }
 }
 
+
+pub fn rot_euler_zyx<F: Float>(phi: F, theta: F, psi: F) -> Array2<F> {
+    rotz(phi) * roty(theta) * rotx(psi)
+}
+
 /// Brief.
 ///
 /// Compute the rotation matrix from euler angles
@@ -213,3 +218,4 @@ pub fn rot2euler<F: Float>(R: Array2<F>) -> (F, F, F) {
 pub fn euler2trans<F: Float>(phi: F, theta: F, psi: F) -> Array2<F> {
     rot2trans(&euler2rot(phi, theta, psi))
 }
+
