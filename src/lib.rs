@@ -50,17 +50,19 @@ mod tests_transformations {
         }
     }
 
-    // #[test]
-    // fn test_rot2euler() {
-    //     let phi_in = 10.0;
-    //     let theta_in = 20.0;
-    //     let psi_in  = 30.0;
-    //     let R = rot_euler_zyx(phi_in, theta_in, psi_in);
-    //     let values = rot2euler(&R);
-    //     assert_approx_eq!(values.0 as f64, phi_in, 1.0e-6);
-    //     assert_approx_eq!(values.1 as f64, theta_in, 1.0e-6);
-    //     assert_approx_eq!(values.2 as f64, psi_in, 1.0e-6);
-    // }
+    // TODO(elsuizo:2019-04-12): el test falla
+    #[test]
+    #[ignore]
+    fn test_rot2euler() {
+        let phi_in = 10.0;
+        let theta_in = 20.0;
+        let psi_in  = 30.0;
+        let R = rot_euler_zyx(phi_in, theta_in, psi_in);
+        let values = rot2euler(&R);
+        assert_approx_eq!(values.0 as f64, phi_in, 1.0e-6);
+        assert_approx_eq!(values.1 as f64, theta_in, 1.0e-6);
+        assert_approx_eq!(values.2 as f64, psi_in, 1.0e-6);
+    }
 
 }
 
@@ -88,7 +90,7 @@ mod tests_utils {
         }
 
     }
-    // NOTE(elsuizo:2019-04-11): este test no funciona por problemas con el metodo `det()`
+
     #[test]
     fn test_is_rotation() {
         let R = rotx(90.0);
