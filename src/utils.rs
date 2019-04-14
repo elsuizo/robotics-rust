@@ -57,6 +57,7 @@ pub fn is_rotation<SF: Scalar + Float>(R: &Array2<SF>) -> bool {
     }
 
     result
+<<<<<<< HEAD
 /// Brief.
 ///
 /// Verify if the Array2 is a proper rotation matrix
@@ -66,4 +67,6 @@ pub fn is_rotation<SF: Scalar + Float>(R: &Array2<SF>) -> bool {
 ///
 pub fn is_rotation<F: Float>(R: Array2<F>) -> bool {
 
+=======
+>>>>>>> master
 }
