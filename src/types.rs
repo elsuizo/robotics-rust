@@ -8,27 +8,24 @@ use num::Float;
 //-------------------------------------------------------------------------
 //                        code
 //-------------------------------------------------------------------------
-#[derive(Debug)]
-pub struct Homogeneous<F> {
-    data: Array2<F>,
+//
+
+#[derive(Debug, Clone)]
+struct Point3D<T> {
+    x: T,
+    y: T,
+    z: T
 }
 
-#[derive(Debug)]
-pub struct Rotation<F> {
-    data: Array2<F>,
+#[derive(Debug, Clone)]
+struct Point2D<T> {
+    x: T,
+    y: T
 }
 
-enum Rotationlalala {
-    Homogeneous,
-    Rotation,
-}
-
-
-impl<F: Float> Homogeneous<F> {
-    pub fn new() -> Self {
-        let m = Array2::<F>::zeros((3,3));
-        Homogeneous {
-            data: m,
-        }
-    }
+#[derive(Debug, Clone)]
+struct Pose3D<F> {
+    theta: F,
+    p: Point3D<F>,
+    Rotation: Array2<F>
 }

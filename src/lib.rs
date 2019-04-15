@@ -1,6 +1,7 @@
 /// A Robotics library in Rust programming language
 ///
 
+#[macro_use]
 extern crate ndarray;
 extern crate ndarray_linalg;
 extern crate assert_approx_eq;
@@ -20,9 +21,10 @@ pub mod types;
 #[cfg(test)]
 mod tests_transformations {
     use assert_approx_eq::assert_approx_eq;
-    use crate::transformations::{rotx, roty, rot2euler, euler2rot, rot_euler_zyx};
+    use crate::transformations::{rotx, roty, rotz, rot2euler, euler2rot, rot_euler_zyx};
     use crate::utils::cross;
-    use ndarray::arr1;
+    use ndarray::{arr1, arr2};
+    use ndarray::prelude::*;
     // use ndarray_linalg::close_l1;
 
     #[test]
@@ -37,6 +39,18 @@ mod tests_transformations {
                 assert_approx_eq!(a[[row, column]] as f64, b[[row, column]] as f64, 1.0e-6);
             }
         }
+        // test property A^(-1) = A^(T)
+
+        let a_inv = a.t();
+        // identity matrix
+        let I: Array2<f64> = Array::eye(3);
+        // matrix product
+        let I_star = a_inv.dot(&a);
+        for row in 0..3 {
+            for column in 0..3 {
+                assert_approx_eq!(I_star[[row, column]] as f64, I[[row, column]] as f64, 1.0e-6);
+            }
+        }
     }
 
     #[test]
@@ -46,6 +60,41 @@ mod tests_transformations {
         for row in 0..3 {
             for column in 0..3 {
                 assert_approx_eq!(a[[row, column]] as f64, b[[row, column]] as f64, 1.0e-6);
+            }
+        }
+        // test property A^(-1) = A^(T)
+
+        let a_inv = a.t();
+        // identity matrix
+        let I: Array2<f64> = Array::eye(3);
+        // matrix product
+        let I_star = a_inv.dot(&a);
+        for row in 0..3 {
+            for column in 0..3 {
+                assert_approx_eq!(I_star[[row, column]] as f64, I[[row, column]] as f64, 1.0e-6);
+            }
+        }
+    }
+
+    #[test]
+    fn test_rotz() {
+        let a = rotz(90.0);
+        let b = rotz(90.0 + 360.0);
+        for row in 0..3 {
+            for column in 0..3 {
+                assert_approx_eq!(a[[row, column]] as f64, b[[row, column]] as f64, 1.0e-6);
+            }
+        }
+        // test property A^(-1) = A^(T)
+
+        let a_inv = a.t();
+        // identity matrix
+        let I: Array2<f64> = Array::eye(3);
+        // matrix product
+        let I_star = a_inv.dot(&a);
+        for row in 0..3 {
+            for column in 0..3 {
+                assert_approx_eq!(I_star[[row, column]] as f64, I[[row, column]] as f64, 1.0e-6);
             }
         }
     }
