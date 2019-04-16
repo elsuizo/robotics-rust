@@ -199,8 +199,9 @@ pub fn rot2euler<F: Float>(R: &Array2<F>) -> (F, F, F) {
 }
 
 
-pub fn rot_euler_zyx<F: Float>(phi: F, theta: F, psi: F) -> Array2<F> {
-    rotz(phi) * roty(theta) * rotx(psi)
+pub fn rot_euler_zyx<F: 'static, Float>(phi: F, theta: F, psi: F) -> Array2<F> {
+    let aux = rotz(phi).dot(&roty(theta));
+    aux.dot(&rotx(psi))
 }
 
 /// Brief.
