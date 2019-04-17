@@ -4,6 +4,7 @@
 //-------------------------------------------------------------------------
 use ndarray::prelude::*;
 use num::Float;
+use ndarray_linalg::types::Scalar;
 //-------------------------------------------------------------------------
 //                        code
 //-------------------------------------------------------------------------
@@ -121,7 +122,7 @@ pub fn troty<F: Float>(angle: F) -> Array2<F> {
 /// Output:
 /// Array2<Float>: 4x4
 ///
-pub fn trotz<F: Float>(angle: F) -> Array2<F> {
+pub fn trotz<F: Scalar + Float>(angle: F) -> Array2<F> {
     rot2trans(&rotz(angle.to_radians()))
 }
 
