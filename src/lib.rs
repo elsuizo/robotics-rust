@@ -54,10 +54,11 @@ mod tests_transformations {
     #[test]
     #[ignore]
     fn test_rot2euler() {
-        let phi_in = 10.0;
+        let phi_in = 40.0;
         let theta_in = 20.0;
         let psi_in  = 30.0;
         let R = rot_euler_zyx(phi_in, theta_in, psi_in);
+        println!("R: {:}", R);
         let values = rot2euler(&R);
         assert_approx_eq!(values.0 as f64, phi_in, 1.0e-6);
         assert_approx_eq!(values.1 as f64, theta_in, 1.0e-6);
