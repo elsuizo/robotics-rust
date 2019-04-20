@@ -117,8 +117,8 @@ mod tests_transformations {
 
 #[cfg(test)]
 mod tests_utils {
-    use crate::utils::{cross, is_rotation};
-    use ndarray::arr1;
+    use crate::utils::{cross, is_rotation, skew_matrix};
+    use ndarray::{arr1, arr2};
     use crate::transformations::{rotx, roty};
     use assert_approx_eq::assert_approx_eq;
 
@@ -134,8 +134,12 @@ mod tests_utils {
                 for num in 0..3 {
                     assert_approx_eq!(w[num] as f64, z[num] as f64);
                 }
-            }
-            Err(e) => println!("error: {}", e),
+            },
+            // TODO(elsuizo:2019-04-20): tuve que poner ese assert porque si no el test pasa
+            Err(e) => {
+                assert_eq!(0, 1);
+                println!("error: {}", e)
+            },
         }
 
     }
@@ -144,5 +148,29 @@ mod tests_utils {
     fn test_is_rotation() {
         let R = rotx(90.0);
         assert_eq!(is_rotation(&R), true);
+    }
+
+    #[test]
+    fn test_screw() {
+        let x = arr1(&[3.0, 7.0, 10.0]);
+        println!("len of x: {:}", x.len());
+        match skew_matrix(&x) {
+            Ok(w) => {
+                let result = arr2(&[[0.0,    -10.0,    7.0],
+                                  [10.0,     0.0,   -3.0],
+                                  [-7.0,     3.0,    0.0],]);
+                for row in 0..3 {
+                    for column in 0..3 {
+                        assert_approx_eq!(w[[row, column]] as f64, result[[row, column]] as f64, 1.0e-6);
+                    }
+                }
+
+            }
+            // TODO(elsuizo:2019-04-20): tuve que poner ese assert porque si no el test pasa
+            Err(e) => {
+                assert_eq!(0, 1);
+                println!("error!!! {:}", e)
+            },
+        }
     }
 }

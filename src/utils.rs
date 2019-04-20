@@ -58,3 +58,26 @@ pub fn is_rotation<SF: Scalar + Float>(R: &Array2<SF>) -> bool {
 
     result
 }
+
+// TODO(elsuizo:2019-04-19): queda medio choto que le pase un array de un solo elemento
+pub fn skew_matrix<SF: Scalar + Float>(v: &Array1<SF>) -> Result<Array2<SF>, UtilError> {
+    let zero = SF::zero();
+    match v.len() {
+        1 => {
+            Ok(arr2(&[[zero, -v[0]],
+                      [v[0],  zero],
+                     ]))
+        },
+        3 => {
+            Ok(arr2(&[[zero,   -v[2],   v[1]],
+                     [v[2],     zero,  -v[0]],
+                     [-v[1],    v[0],   zero],
+                     ]))
+        },
+        _ => Err(UtilError::InvalidVectorDimention{len_v: v.len()})
+    }
+}
+
+// pub fn vex_matrix<SF: Scalar + Float>(a: &Array2<SF>) -> Result<SF, UtilError> {
+//
+// }
