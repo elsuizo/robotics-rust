@@ -78,6 +78,18 @@ pub fn skew_matrix<SF: Scalar + Float>(v: &Array1<SF>) -> Result<Array2<SF>, Uti
     }
 }
 
-// pub fn vex_matrix<SF: Scalar + Float>(a: &Array2<SF>) -> Result<SF, UtilError> {
-//
-// }
+pub fn vex_matrix<SF: Scalar + Float>(a: &Array2<SF>) -> Result<Array2<SF>, UtilError> {
+    let zero = SF::zero();
+    if a.shape() == [3,3] {
+        let mut result = arr1(&[zero, zero, zero]);
+        return Ok(0.5 * result[a[[2,1]] - a[[1,2]], a[[0,2]] - a[[2,0]], a[[1,0]]-a[[0,1]]])
+    } if a.shape() == [2,2] {
+        let mut result = arr1(&[zero]);
+        return Ok(0.5 * result[a[[1,0]] - a[[0,1]]])
+    }
+    else {
+        let s = a.shape();
+        return Err(UtilError::InvalidMatrixShape{rows: s[0],
+                                                 columns: s[1]})
+    }
+}
