@@ -6,7 +6,7 @@ edition = "2018"
 
 [dependencies]
 ndarray = "0.12"
-ndarray-linalg = {version = "0.10", features = ["openblas"]}
+ndarray-linalg = {version = "0.11", features = ["openblas"]}
 # ndarray-linalg = "0.10"
 assert_approx_eq = "1.1.0"
 num = "*"
