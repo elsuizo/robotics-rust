@@ -233,3 +233,9 @@ pub fn rot_euler_zyx<SF:Scalar + Float + RingCommutative>(phi: SF, theta: SF, ps
 pub fn euler2trans<SF:Scalar + Float + RingCommutative>(phi: SF, theta: SF, psi: SF) -> Matrix4<SF> {
     rot2trans(&euler2rot(phi, theta, psi))
 }
+
+enum Name {
+    ,
+}
+
+pun fn skew<SF:Scalar + Float + RingCommutative>(v: SF) -> 
