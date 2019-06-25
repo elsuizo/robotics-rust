@@ -55,3 +55,6 @@ pub fn is_rotation<SF: Scalar + Float + RingCommutative + na::ComplexField>(R: &
 
     result
 }
+
+
+pun fn skew<SF:Scalar + Float + RingCommutative>(v: SF) -> Result<>

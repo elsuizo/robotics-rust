@@ -234,8 +234,3 @@ pub fn euler2trans<SF:Scalar + Float + RingCommutative>(phi: SF, theta: SF, psi:
     rot2trans(&euler2rot(phi, theta, psi))
 }
 
-enum Name {
-    ,
-}
-
-pun fn skew<SF:Scalar + Float + RingCommutative>(v: SF) -> 
