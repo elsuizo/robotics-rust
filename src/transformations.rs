@@ -23,11 +23,10 @@ pub fn rotx<SF:Scalar + Float + RingCommutative>(angle: SF) -> Matrix3<SF> {
     let c = angle.to_radians().cos();
     let s = angle.to_radians().sin();
 
-    let Rotation = Matrix3::from_rows(&[
+    Matrix3::from_rows(&[
                         RowVector3::new(one, zero, zero),
                         RowVector3::new(zero,   c,  -s),
-                        RowVector3::new(zero,   s,   c),]);
-    return Rotation;
+                        RowVector3::new(zero,   s,   c),])
 }
 
 
@@ -43,12 +42,10 @@ pub fn roty<SF: Scalar + Float + RingCommutative>(angle: SF) -> Matrix3<SF> {
     let zero = SF::zero();
     let c = angle.to_radians().cos();
     let s = angle.to_radians().sin();
-    let Rotation = Matrix3::from_rows(&[
+    Matrix3::from_rows(&[
                         RowVector3::new(c,     zero,      s),
                         RowVector3::new(zero,   one,   zero),
-                        RowVector3::new(-s,    zero,      c),]
-                                      );
-    return Rotation
+                        RowVector3::new(-s,    zero,      c),])
 }
 
 /// Brief.
@@ -63,12 +60,10 @@ pub fn rotz<SF:Scalar + Float + RingCommutative>(angle: SF) -> Matrix3<SF> {
     let zero = SF::zero();
     let c = angle.to_radians().cos();
     let s = angle.to_radians().sin();
-    let Rotation = Matrix3::from_rows(&[
+    Matrix3::from_rows(&[
                         RowVector3::new(c,     -s,      zero),
                         RowVector3::new(s,      c,      zero),
-                        RowVector3::new(zero, zero,      one),]
-                                      );
-    return Rotation
+                        RowVector3::new(zero, zero,      one),])
 }
 
 /// Brief.

@@ -122,7 +122,6 @@ mod tests_utils {
     //         Err(e) => println!("error: {}", e),
     //     }
     //
-    // NOTE(elsuizo:2019-04-11): este test no funciona por problemas con el metodo `det()`
     #[test]
     fn test_is_rotation() {
         let R = rotx(90.0);
