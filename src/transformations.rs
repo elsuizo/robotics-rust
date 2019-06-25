@@ -17,7 +17,7 @@ use core::fmt::Debug;
 /// description
 ///
 /// * `angle` - angle of rotation in degrees
-pub fn rotx<SF:Scalar + Float>(angle: SF) -> Matrix3<SF> {
+pub fn rotx<SF:Scalar + Float + RingCommutative>(angle: SF) -> Matrix3<SF> {
     let one = SF::one();
     let zero = SF::zero();
     let c = angle.to_radians().cos();
@@ -38,7 +38,7 @@ pub fn rotx<SF:Scalar + Float>(angle: SF) -> Matrix3<SF> {
 /// Description
 ///
 /// * `angle` - Angle of rotation in degrees
-pub fn roty<SF: Scalar + Float>(angle: SF) -> Matrix3<SF> {
+pub fn roty<SF: Scalar + Float + RingCommutative>(angle: SF) -> Matrix3<SF> {
     let one = SF::one();
     let zero = SF::zero();
     let c = angle.to_radians().cos();
@@ -58,7 +58,7 @@ pub fn roty<SF: Scalar + Float>(angle: SF) -> Matrix3<SF> {
 /// Description
 ///
 /// * `angle` - Angle of rotation in degrees
-pub fn rotz<SF:Scalar + Float>(angle: SF) -> Matrix3<SF> {
+pub fn rotz<SF:Scalar + Float + RingCommutative>(angle: SF) -> Matrix3<SF> {
     let one = SF::one();
     let zero = SF::zero();
     let c = angle.to_radians().cos();
@@ -81,7 +81,7 @@ pub fn rotz<SF:Scalar + Float>(angle: SF) -> Matrix3<SF> {
 /// Output:
 /// R: Rotation matrix(Array2<Float>)
 ///
-fn rot2trans<SF:Scalar + Float>(r: &Matrix3<SF>) -> Matrix4<SF> {
+fn rot2trans<SF:Scalar + Float + RingCommutative>(r: &Matrix3<SF>) -> Matrix4<SF> {
     let mut R = Matrix4::zeros();
     for row in 0..3 {
         for column in 0..3 {
@@ -99,7 +99,7 @@ fn rot2trans<SF:Scalar + Float>(r: &Matrix3<SF>) -> Matrix4<SF> {
 /// Function arguments:
 ///  `angle`: Float
 ///
-pub fn trotx<SF:Scalar + Float>(angle: SF) -> Matrix4<SF> {
+pub fn trotx<SF:Scalar + Float + RingCommutative>(angle: SF) -> Matrix4<SF> {
     rot2trans(&rotx(angle.to_radians()))
 }
 
@@ -114,7 +114,7 @@ pub fn trotx<SF:Scalar + Float>(angle: SF) -> Matrix4<SF> {
 /// Output:
 /// Array2<Float>: 4x4
 ///
-pub fn troty<SF:Scalar + Float>(angle: SF) -> Matrix4<SF> {
+pub fn troty<SF:Scalar + Float + RingCommutative>(angle: SF) -> Matrix4<SF> {
     rot2trans(&roty(angle.to_radians()))
 }
 
@@ -128,7 +128,7 @@ pub fn troty<SF:Scalar + Float>(angle: SF) -> Matrix4<SF> {
 /// Output:
 /// Array2<Float>: 4x4
 ///
-pub fn trotz<SF:Scalar + Float>(angle: SF) -> Matrix4<SF> {
+pub fn trotz<SF:Scalar + Float + RingCommutative>(angle: SF) -> Matrix4<SF> {
     rot2trans(&rotz(angle.to_radians()))
 }
 
@@ -159,7 +159,7 @@ pub fn euler2rot<SF:Scalar + Float + RingCommutative>(angle_phi: SF, angle_theta
 /// Return:
 /// R: Rotation matrix(Array2<Float>)
 ///
-pub fn angle_vector2rot<SF:Scalar + Float>(theta: SF, vector: Vector3<SF>) -> Matrix3<SF> {
+pub fn angle_vector2rot<SF:Scalar + Float + RingCommutative>(theta: SF, vector: Vector3<SF>) -> Matrix3<SF> {
     let c = theta.cos();
     let s = theta.sin();
     let comp = SF::one() - c;
@@ -197,9 +197,9 @@ pub fn angle_vector2rot<SF:Scalar + Float>(theta: SF, vector: Vector3<SF>) -> Ma
 /// Output:
 /// A tuple with the angles: phi, theta, psi
 ///
-pub fn rot2euler<SF:Scalar + Float>(R: &Matrix3<SF>) -> (SF, SF, SF) {
+pub fn rot2euler<SF:Scalar + Float + RingCommutative>(R: &Matrix3<SF>) -> (SF, SF, SF) {
 
-    if R[(0,2)].abs() < SF::epsilon() && R[(1, 2)].abs() < SF::epsilon() {
+    if Float::abs(R[(0,2)]) < SF::epsilon() && Float::abs(R[(1, 2)]) < SF::epsilon() {
         // singularity
         let phi   = SF::zero();
         let sp    = SF::zero();
@@ -235,6 +235,6 @@ pub fn rot_euler_zyx<SF:Scalar + Float + RingCommutative>(phi: SF, theta: SF, ps
 /// Output:
 /// R: Rotation matrix(Array2<Float>)
 ///
-pub fn euler2trans<SF:Scalar + Float>(phi: SF, theta: SF, psi: SF) -> Matrix4<SF> {
+pub fn euler2trans<SF:Scalar + Float + RingCommutative>(phi: SF, theta: SF, psi: SF) -> Matrix4<SF> {
     rot2trans(&euler2rot(phi, theta, psi))
 }

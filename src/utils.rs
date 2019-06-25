@@ -47,7 +47,7 @@ use alga::general::RingCommutative;
 pub fn is_rotation<SF: Scalar + Float + RingCommutative + na::ComplexField>(R: &Matrix3<SF>) -> bool {
     let mut result = false;
     // the determinant must be almost one
-    if (R.determinant() - SF::one()).abs() < SF::epsilon() {
+    if R.determinant() - Float::abs(SF::one()) < SF::epsilon() {
         result = true;
     } else {
         result = false;
