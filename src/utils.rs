@@ -57,4 +57,11 @@ pub fn is_rotation<SF: Scalar + Float + RingCommutative + na::ComplexField>(R: &
 }
 
 
-pun fn skew<SF:Scalar + Float + RingCommutative>(v: SF) -> Result<>
+enum TypesOfVectors {
+    Vector3,
+    Vector1
+}
+
+pun fn skew<SF:Scalar + Float + RingCommutative>(v: TypesOfVectors) -> Result<> {
+
+}
