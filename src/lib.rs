@@ -85,10 +85,10 @@ mod tests_transformations {
 
 #[cfg(test)]
 mod tests_utils {
-    use crate::utils::{is_rotation};
+    use crate::utils::{is_rotation, skew_from_vector1, skew_from_vector3};
     use crate::transformations::{rotx, roty};
     use assert_approx_eq::assert_approx_eq;
-    use nalgebra::Vector3;
+    use nalgebra::{Vector3, Vector1, RowVector3, Matrix3};
 
     // #[test]
     // fn test_cross() {
@@ -127,4 +127,19 @@ mod tests_utils {
         let R = rotx(90.0);
         assert_eq!(is_rotation(&R), true);
     }
+
+    #[test]
+    fn test_skew() {
+        let v = Vector3::new(1.0, 2.0, 3.0);
+        let x = skew_from_vector3(&v);
+        let expected_matrix = Matrix3::from_rows(&[RowVector3::new(0.0,   -3.0,   2.0),
+                                                   RowVector3::new(3.0,   0.0,   -1.0),
+                                                   RowVector3::new(2.0,   1.0, 0.0),]);
+        for row in 0..3 {
+            for column in 0..3 {
+                assert_approx_eq!(x[(row, column)] as f64, expected_matrix[(row, column)] as f64, 1.0e-6);
+                }
+        }
+    }
 }
+
