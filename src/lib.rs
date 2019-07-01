@@ -1,8 +1,6 @@
 /// A Robotics library in Rust programming language
 ///
 
-// extern crate ndarray;
-// extern crate ndarray_linalg;
 extern crate nalgebra as na;
 extern crate assert_approx_eq;
 extern crate num;
@@ -88,40 +86,8 @@ mod tests_utils {
     use crate::utils::{is_rotation, skew_from_vector1, skew_from_vector3};
     use crate::transformations::{rotx, roty};
     use assert_approx_eq::assert_approx_eq;
-    use nalgebra::{Vector3, Vector1, RowVector3, Matrix3};
+    use nalgebra::{Vector3, Vector1, RowVector3, Matrix3, RowVector2, Matrix2};
 
-    // #[test]
-    // fn test_cross() {
-    //     // testing X x Y = Z
-    //     let u = Vector3::new(1.0, 0.0, 0.0);
-    //     let v = Vector3::new(0.0, 1.0, 0.0);
-    //
-    //     match cross(&u, &v) {
-    //         Ok(w) => {
-    //             let z = Vector3::new(0.0, 0.0, 1.0):
-    //             for num in 0..3 {
-    //                 assert_approx_eq!(w[(num)] as f64, z[(num)] as f64);
-    //             }
-    //         }
-    //     }
-    // }
-
-    // #[test]
-    // fn test_cross() {
-    //     // testing X x Y = Z
-    //     let u = arr1(&[1.0, 0.0, 0.0]);
-    //     let v = arr1(&[0.0, 1.0, 0.0]);
-    //
-    //     match cross(&u, &v) {
-    //         Ok(w) => {
-    //             let z = arr1(&[0.0, 0.0, 1.0]);
-    //             for num in 0..3 {
-    //                 assert_approx_eq!(w[num] as f64, z[num] as f64);
-    //             }
-    //         }
-    //         Err(e) => println!("error: {}", e),
-    //     }
-    //
     #[test]
     fn test_is_rotation() {
         let R = rotx(90.0);
@@ -129,7 +95,7 @@ mod tests_utils {
     }
 
     #[test]
-    fn test_skew() {
+    fn test_skew_vector3() {
         let v = Vector3::new(1.0, 2.0, 3.0);
         let x = skew_from_vector3(&v);
         let expected_matrix = Matrix3::from_rows(&[RowVector3::new(0.0,   -3.0,   2.0),
@@ -137,6 +103,18 @@ mod tests_utils {
                                                    RowVector3::new(2.0,   1.0, 0.0),]);
         for row in 0..3 {
             for column in 0..3 {
+                assert_approx_eq!(x[(row, column)] as f64, expected_matrix[(row, column)] as f64, 1.0e-6);
+                }
+        }
+    }
+    #[test]
+    fn test_skew_vector1() {
+        let v = Vector1::new(1.0);
+        let x = skew_from_vector1(&v);
+        let expected_matrix = Matrix2::from_rows(&[RowVector2::new(0.0,   -1.0),
+                                                   RowVector2::new(1.0,   0.0),]);
+        for row in 0..2 {
+            for column in 0..2 {
                 assert_approx_eq!(x[(row, column)] as f64, expected_matrix[(row, column)] as f64, 1.0e-6);
                 }
         }
