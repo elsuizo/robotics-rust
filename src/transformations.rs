@@ -75,8 +75,8 @@ pub fn rotz<SF:Scalar + Float>(angle: SF) -> Array2<SF> {
 ///
 pub fn rot2trans<SF:Scalar + Float>(r: &Array2<SF>) -> Array2<SF> {
     let mut R = Array2::<SF>::zeros((4,4));
-    for row in 0..3 {
-        for column in 0..3 {
+    for row in 0..R.rows() {
+        for column in 0..R.cols() {
             R[[row, column]] = r[[row, column]];
         }
     }
