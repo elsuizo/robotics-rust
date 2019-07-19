@@ -57,8 +57,8 @@ mod tests_transformations {
     fn test_roty() {
         let a = roty(90.0);
         let b = roty(90.0 + 360.0);
-        for row in 0..3 {
-            for column in 0..3 {
+        for row in 0..a.rows() {
+            for column in 0..a.cols() {
                 assert_approx_eq!(a[[row, column]] as f64, b[[row, column]] as f64, 1.0e-6);
             }
         }
@@ -69,8 +69,8 @@ mod tests_transformations {
         let I: Array2<f64> = Array::eye(3);
         // matrix product
         let I_star = a_inv.dot(&a);
-        for row in 0..3 {
-            for column in 0..3 {
+        for row in 0..I.rows() {
+            for column in 0..I.cols() {
                 assert_approx_eq!(I_star[[row, column]] as f64, I[[row, column]] as f64, 1.0e-6);
             }
         }
@@ -80,8 +80,8 @@ mod tests_transformations {
     fn test_rotz() {
         let a = rotz(90.0);
         let b = rotz(90.0 + 360.0);
-        for row in 0..3 {
-            for column in 0..3 {
+        for row in 0..a.rows() {
+            for column in 0..a.cols() {
                 assert_approx_eq!(a[[row, column]] as f64, b[[row, column]] as f64, 1.0e-6);
             }
         }
@@ -92,8 +92,8 @@ mod tests_transformations {
         let I: Array2<f64> = Array::eye(3);
         // matrix product
         let I_star = a_inv.dot(&a);
-        for row in 0..3 {
-            for column in 0..3 {
+        for row in 0..I.rows() {
+            for column in 0..I.cols() {
                 assert_approx_eq!(I_star[[row, column]] as f64, I[[row, column]] as f64, 1.0e-6);
             }
         }
@@ -117,7 +117,7 @@ mod tests_transformations {
 
 #[cfg(test)]
 mod tests_utils {
-    use crate::utils::{cross, is_rotation, skew_matrix};
+    use crate::utils::{cross, is_rotation, skew_matrix, vex_matrix};
     use ndarray::{arr1, arr2};
     use crate::transformations::{rotx, roty};
     use assert_approx_eq::assert_approx_eq;
@@ -151,26 +151,32 @@ mod tests_utils {
     }
 
     #[test]
-    fn test_screw() {
+    fn test_screw_vector3() {
         let x = arr1(&[3.0, 7.0, 10.0]);
-        println!("len of x: {:}", x.len());
         match skew_matrix(&x) {
             Ok(w) => {
                 let result = arr2(&[[0.0,    -10.0,    7.0],
-                                  [10.0,     0.0,   -3.0],
-                                  [-7.0,     3.0,    0.0],]);
-                for row in 0..3 {
-                    for column in 0..3 {
+                                   [10.0,      0.0,   -3.0],
+                                   [-7.0,      3.0,    0.0],]);
+                for row in 0..result.rows() {
+                    for column in 0..result.cols() {
                         assert_approx_eq!(w[[row, column]] as f64, result[[row, column]] as f64, 1.0e-6);
                     }
                 }
 
             }
-            // TODO(elsuizo:2019-04-20): tuve que poner ese assert porque si no el test pasa
             Err(e) => {
-                assert_eq!(0, 1);
                 println!("error!!! {:}", e)
             },
         }
+    }
+
+    #[test]
+    fn test_vex() {
+        let x = arr1(&[3.0]);
+        let s = skew_matrix(&x).unwrap();
+        let result = vex_matrix(&s).unwrap();
+        // TODO(elsuizo:2019-07-18): no es lo que se espera porque falta multiplicar por 0.5
+        assert_eq!(result[0], 6.0);
     }
 }
