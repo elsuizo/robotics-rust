@@ -44,7 +44,7 @@ pub fn cross<F: Float>(u: &Array1<F>, v: &Array1<F>) -> Result<Array1<F>, UtilEr
 /// Function arguments:
 /// R: Array2<Float>
 ///
-pub fn is_rotation<SF: Scalar + Float>(R: &Array2<SF>) -> bool {
+pub fn is_rotation<SF: Scalar + Float>(R: &RotationMatrix<SF>) -> bool {
     let mut result = false;
     let shape = R.shape();
     if (shape[0] == shape[1]) && (shape[0] == 3) {
