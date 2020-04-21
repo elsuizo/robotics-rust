@@ -11,7 +11,7 @@ use num::Float;
 type RotationMatrix<SF> = Array2<SF>; // type alias for readability
 
 #[derive(Debug)]
-pub struct Pose<F> {
+pub struct Pose<SF> {
     Rotation: RotationMatrix<SF>,
     coordinate_frame_name: &'static str,
 }

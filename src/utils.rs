@@ -44,7 +44,7 @@ pub fn cross<F: Float>(u: &Array1<F>, v: &Array1<F>) -> Result<Array1<F>, UtilEr
 /// Function arguments:
 /// R: Array2<Float>
 ///
-pub fn is_rotation<SF: Scalar + Float>(R: &RotationMatrix<SF>) -> bool {
+pub fn is_rotation<SF: Scalar + Float>(R: &Array2<SF>) -> bool {
     let mut result = false;
     let shape = R.shape();
     if (shape[0] == shape[1]) && (shape[0] == 3) {
@@ -78,21 +78,22 @@ pub fn skew_matrix<SF: Scalar + Float>(v: &Array1<SF>) -> Result<Array2<SF>, Uti
     }
 }
 
-// FIXME(elsuizo:2019-07-18): no se porque no anda la multiplicacion de un float con un vector
 pub fn vex_matrix<SF: Scalar + Float>(a: &Array2<SF>) -> Result<Array1<SF>, UtilError> {
     let zero = SF::zero();
+    let half = SF::from(0.5).unwrap();
     match a.shape() {
 
         [3, 3]   => {
-            let result_x = a[[2, 1]] - a[[1, 2]];
-            let result_y = a[[0, 2]] - a[[2, 0]];
-            let result_z = a[[1, 0]] - a[[0, 1]];
+            let result_x = half * (a[[2, 1]] - a[[1, 2]]);
+            let result_y = half * (a[[0, 2]] - a[[2, 0]]);
+            let result_z = half * (a[[1, 0]] - a[[0, 1]]);
             let result = arr1(&[result_x, result_y, result_z]);
             return Ok(result)
         }
 
         [2, 2]   => {
-            let result = arr1(&[a[[1, 0]] - a[[0, 1]]]);
+            let result_x = half * (a[[1, 0]] - a[[0, 1]]);
+            let result = arr1(&[result_x]);
             return Ok(result)
         }
         _        => {

@@ -177,6 +177,6 @@ mod tests_utils {
         let s = skew_matrix(&x).unwrap();
         let result = vex_matrix(&s).unwrap();
         // TODO(elsuizo:2019-07-18): no es lo que se espera porque falta multiplicar por 0.5
-        assert_eq!(result[0], 6.0);
+        assert_eq!(result[0], 3.0);
     }
 }
